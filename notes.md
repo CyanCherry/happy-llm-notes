@@ -28,3 +28,15 @@
 * CNN：通过卷积核这种小参数量矩阵，来提取和压缩局部信息
 * RNN：通过自循环增加了时序演进机制，所以无法并行计算
 * LSTM：只是在 RNN 基础上解决了信息衰减问题
+
+## 注意力机制
+
+实质上是计算多个 K 对应的 V 的加权合并的结果，权重比例是 Q 和全量 K 分别的相似度。
+
+> $$ attention (Q,K,V) = softmax (\frac{QK^T}{\sqrt{d_k}})V $$
+
+* $Q$：全量 query
+* $K^T$：要查询的 key 矩阵，因为计算点积相似度而转置
+* $d_k$：排除 batch size 和 attention head 后的向量的长度，一般是 Q.shape[1]
+* $softmax$：因为目的是按比例组合不同的 value，所以需要归一化
+* $V$：即是要查询的 value 矩阵
